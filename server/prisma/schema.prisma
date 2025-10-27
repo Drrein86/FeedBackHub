@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      UserRole @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Store {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Multilingual store data
+  translations StoreTranslation[]
+
+  // Relations
+  reviews Review[]
+
+  @@map("stores")
+}
+
+model StoreTranslation {
+  id       String @id @default(cuid())
+  storeId  String
+  language String // 'en' or 'he'
+  name     String
+  location String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, language])
+  @@map("store_translations")
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  rating     Int? // 1-5 stars, optional
+  comment    String
+  language   String // 'en' or 'he'
+  isApproved Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model Settings {
+  id                String   @id @default(cuid())
+  webhookUrl        String?
+  notificationEmail String?
+  autoApprove       Boolean  @default(true)
+  minRating         Int      @default(1)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("settings")
+}
+
+enum UserRole {
+  ADMIN
+}
