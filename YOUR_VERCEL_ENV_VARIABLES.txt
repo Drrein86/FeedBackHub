@@ -1,0 +1,112 @@
+================================================================
+🚀 VERCEL ENVIRONMENT VARIABLES - COPY AND PASTE THESE
+================================================================
+
+========================================
+BACKEND DEPLOYMENT (server folder)
+========================================
+
+Copy these THREE variables to Vercel when deploying the backend:
+
+---
+Variable 1: DATABASE_URL
+---
+postgresql://postgres.pmtghdpndezxrvfbnayc:FeedbackHub12!@aws-1-eu-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true
+
+---
+Variable 2: JWT_SECRET
+---
+f2a53a21b2c0da474d86f0cd6f3e34138590a9fe87b108ab155a0a2b6df75e61
+
+---
+Variable 3: NODE_ENV
+---
+production
+
+========================================
+FRONTEND DEPLOYMENT (root folder)
+========================================
+
+Copy this ONE variable to Vercel when deploying the frontend:
+
+---
+Variable: VITE_API_URL
+---
+(You'll fill this AFTER backend is deployed)
+Format: https://YOUR-BACKEND-URL.vercel.app/api
+
+Example: https://feedbackhub-backend-xyz123.vercel.app/api
+
+========================================
+UPDATE BACKEND (after frontend is deployed)
+========================================
+
+Add this variable to your BACKEND project settings:
+
+---
+Variable: FRONTEND_URL
+---
+(You'll fill this AFTER frontend is deployed)
+Format: https://YOUR-FRONTEND-URL.vercel.app
+
+Example: https://feedbackhub-abc456.vercel.app
+(NO trailing slash!)
+
+================================================================
+📋 DEPLOYMENT CHECKLIST
+================================================================
+
+Backend Deployment:
+□ 1. Go to vercel.com/dashboard
+□ 2. Click "Add New Project"
+□ 3. Import: Drrein86/FeedBackHub
+□ 4. Root Directory: Select "server"
+□ 5. Build Command: npm install && npx prisma generate
+□ 6. Add 3 environment variables (DATABASE_URL, JWT_SECRET, NODE_ENV)
+□ 7. Deploy
+□ 8. Copy backend URL
+
+Database Initialization (in terminal):
+□ 9. cd server
+□ 10. vercel login
+□ 11. vercel link (select: Drrein86 → feedbackhub-backend)
+□ 12. vercel env pull
+□ 13. npx prisma db push
+□ 14. node scripts/setup.js
+
+Frontend Deployment:
+□ 15. Go to vercel.com/dashboard
+□ 16. Click "Add New Project" again
+□ 17. Import: Drrein86/FeedBackHub (same repo)
+□ 18. Root Directory: Leave as root
+□ 19. Framework: Vite
+□ 20. Add 1 environment variable (VITE_API_URL with your backend URL)
+□ 21. Deploy
+□ 22. Copy frontend URL
+
+Final Backend Update:
+□ 23. Go to backend project in Vercel
+□ 24. Settings → Environment Variables
+□ 25. Add FRONTEND_URL with your frontend URL
+□ 26. Deployments → Redeploy
+
+Test:
+□ 27. Visit your frontend URL
+□ 28. Login: admin@feedbackhub.com / admin123
+□ 29. Change admin password!
+
+================================================================
+🔑 ADMIN LOGIN CREDENTIALS
+================================================================
+Email: admin@feedbackhub.com
+Password: admin123
+
+⚠️ CHANGE PASSWORD IMMEDIATELY AFTER FIRST LOGIN!
+
+================================================================
+📚 DETAILED GUIDE
+================================================================
+See: VERCEL_DEPLOYMENT_STEPS.md for step-by-step instructions
+
+================================================================
+
