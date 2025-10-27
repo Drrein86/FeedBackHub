@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MessageSquare, Languages } from "lucide-react";
+import { MessageSquare, Languages, Shield } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 
@@ -21,15 +21,28 @@ const Navigation = () => {
             </span>
           </Link>
 
-          <Button
-            onClick={toggleLanguage}
-            variant="outline"
-            size="sm"
-            className="flex items-center space-x-2 border-border hover:border-primary transition-smooth"
-          >
-            <Languages className="h-4 w-4" />
-            <span>{language === "en" ? "עברית" : "English"}</span>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link to="/admin">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center space-x-2 hover:bg-primary/10 transition-smooth"
+              >
+                <Shield className="h-4 w-4" />
+                <span>{t("admin") || "Admin"}</span>
+              </Button>
+            </Link>
+            
+            <Button
+              onClick={toggleLanguage}
+              variant="outline"
+              size="sm"
+              className="flex items-center space-x-2 border-border hover:border-primary transition-smooth"
+            >
+              <Languages className="h-4 w-4" />
+              <span>{language === "en" ? "עברית" : "English"}</span>
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
