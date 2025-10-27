@@ -98,7 +98,7 @@ git push -u origin main
 2. **Build & Development Settings**:
    - **Build Command**: `npm install && npx prisma generate`
    - **Output Directory**: Leave empty
-   - **Install Command**: `npm install`
+- **Install Command**: `npm install`
    - **Development Command**: Leave default
 
 3. **Environment Variables**: Click "Add" and add these:
