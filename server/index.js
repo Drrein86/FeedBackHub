@@ -16,15 +16,38 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(helmet());
+
+// CORS Configuration
+const allowedOrigins = process.env.NODE_ENV === 'production' 
+  ? [
+      process.env.FRONTEND_URL,
+      'https://feed-back-hub-aiv9.vercel.app' // Your frontend URL
+    ].filter(Boolean) // Remove undefined/null values
+  : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:8080'];
+
+console.log('🔐 CORS Configuration:', {
+  NODE_ENV: process.env.NODE_ENV,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+  allowedOrigins
+});
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [
-        process.env.FRONTEND_URL || 'https://your-frontend-domain.vercel.app',
-        'https://your-frontend-domain.vercel.app'
-      ] 
-    : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:8080'],
-  credentials: true
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('❌ CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
 // Routes
