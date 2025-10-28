@@ -11,8 +11,15 @@ import settingsRoutes from './routes/settings.js';
 dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ['query', 'error', 'warn'],
+});
 const PORT = process.env.PORT || 3001;
+
+// Log database connection info on startup
+console.log('🔗 Prisma Client initialized');
+console.log('📊 DATABASE_URL exists:', !!process.env.DATABASE_URL);
+console.log('🔐 JWT_SECRET exists:', !!process.env.JWT_SECRET);
 
 // Middleware
 app.use(helmet());
